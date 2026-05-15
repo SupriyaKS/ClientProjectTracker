@@ -1,0 +1,20 @@
+<h2>Tasks</h2>
+
+<a asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-primary">
+    Add Task
+</a>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Status</th>
+    </tr>
+
+@foreach (var t in Model)
+{
+    <tr>
+        <td>@t.Title</td>
+        <td>@t.Status</td>
+    </tr>
+}
+</table>

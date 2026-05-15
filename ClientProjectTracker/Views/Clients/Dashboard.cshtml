@@ -1,0 +1,184 @@
+@model IEnumerable<ClientProjectTracker.Models.Client>
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="mb-4">Client Dashboard</h2>
+
+<!-- Dashboard Cards -->
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card bg-primary text-white shadow-sm">
+            <div class="card-body">
+                <h6>Total Clients</h6>
+                <h2>@ViewBag.TotalClients</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-success text-white shadow-sm">
+            <div class="card-body">
+                <h6>Total Projects</h6>
+                <h2>@ViewBag.TotalProjects</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-warning shadow-sm">
+            <div class="card-body">
+                <h6>Total Tasks</h6>
+                <h2>@ViewBag.TotalTasks</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-dark text-white shadow-sm">
+            <div class="card-body">
+                <h6>Completed Tasks</h6>
+                <h2>@ViewBag.CompletedTasks</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Chart -->
+
+
+
+<div class="row mt-4">
+
+    <div class="col-md-8">
+
+        <!-- Line chart -->
+        <div class="card shadow-sm p-4">
+    <h4 class="mb-3">Client Growth</h4>
+
+    <canvas id="clientsChart" height="100"></canvas>
+</div>
+<div class="card shadow-sm mt-4">
+
+    <div class="card-body">
+
+        <h4 class="mb-3">Recent Clients</h4>
+
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Company</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var client in Model)
+                {
+                    <tr>
+                        <td>@client.Name</td>
+                        <td>@client.Email</td>
+                        <td>@client.CompanyName</td>
+                        <td>@client.CreatedAt.ToShortDateString()</td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <!-- Pie chart -->
+        <div class="card shadow-sm mt-4 p-4">
+
+    <h4 class="mb-3">Task Status</h4>
+
+
+<div style="max-width: 400px; height: 400px; margin: auto;">
+    <canvas id="taskChart"></canvas>
+</div>
+
+</div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+<script>
+
+    const labels = @Html.Raw(
+        System.Text.Json.JsonSerializer.Serialize(ViewBag.ChartLabels)
+    );
+
+    const data = @Html.Raw(
+        System.Text.Json.JsonSerializer.Serialize(ViewBag.ChartData)
+    );
+
+    const ctx = document.getElementById('clientsChart');
+
+    new Chart(ctx, {
+        type: 'line',
+
+        data: {
+            labels: labels,
+
+            datasets: [{
+                label: 'Clients Added',
+                data: data,
+                borderWidth: 3,
+                tension: 0.3,
+                fill: false
+            }]
+        },
+
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            }
+        }
+    });
+
+    const taskCtx = document.getElementById('taskChart');
+
+    new Chart(taskCtx, {
+        type: 'pie',
+
+        data: {
+            labels: ['Pending', 'In Progress', 'Completed'],
+
+            datasets: [{
+                data: [
+                    @ViewBag.PendingTasks,
+                    @ViewBag.InProgressTasks,
+                    @ViewBag.CompletedTasks
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+</script>
+
+}

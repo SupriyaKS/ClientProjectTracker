@@ -1,0 +1,24 @@
+<form asp-action="Create">
+    <input type="hidden" name="ProjectId" value="@ViewBag.ProjectId" />
+
+    <div>
+        <label>Title</label>
+        <input name="Title" class="form-control" />
+    </div>
+
+    <div>
+        <label>Description</label>
+        <input name="Description" class="form-control" />
+    </div>
+
+    <div>
+        <label>Status</label>
+        <select name="Status" class="form-control">
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Done</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-2">Save</button>
+</form>

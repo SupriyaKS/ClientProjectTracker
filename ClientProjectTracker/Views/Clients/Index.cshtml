@@ -1,0 +1,72 @@
+@model IEnumerable<ClientProjectTracker.Models.Client>
+
+<h2>Clients</h2>
+<a asp-action="ExportToExcel" class="btn btn-success mb-3">
+    Export to Excel
+</a>
+<a asp-action="Create" class="btn btn-primary">Add Client</a>
+<form method="get" class="mb-3">
+    <input type="text" name="search"
+           value="@ViewBag.Search"
+           placeholder="Search clients..."
+           class="form-control"
+           style="width:300px; display:inline;" />
+
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Company</th>
+            <th>Created</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model)
+        {
+            <tr>
+                <td>@client.Name</td>
+                <td>@client.Email</td>
+                <td>@client.CompanyName</td>
+                <td>@client.CreatedAt.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@client.Id" class="btn btn-sm btn-warning">Edit</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <form asp-action="Delete" asp-route-id="@client.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Are you sure?');">
+                            Delete
+                        </button>
+                    </form>
+                }
+                </td>
+                <td>
+                    <a asp-controller="Projects"
+                    asp-action="Index"
+                    asp-route-clientId="@client.Id"
+                    class="btn btn-info btn-sm">
+                    View Projects
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (ViewBag.TotalPages > 1)
+{
+    <div class="mt-3">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <a asp-action="Index"
+               asp-route-page="@i"
+               asp-route-search="@ViewBag.Search"
+               class="btn @(i == ViewBag.CurrentPage ? "btn-primary" : "btn-outline-primary")">
+                @i
+            </a>
+        }
+    </div>
+}

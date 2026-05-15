@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ClientProjectTracker</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ClientProjectTracker.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+    <!-- LEFT MENU -->
+    <ul class="navbar-nav me-auto">
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="Clients"
+               asp-action="Dashboard">
+                Dashboard
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="Clients"
+               asp-action="Index">
+                Clients
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="Projects"
+               asp-action="Index">
+                Projects
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="Tasks"
+               asp-action="Index">
+                Tasks
+            </a>
+        </li>
+
+        <!-- ✅ ADD HERE -->
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="Tasks"
+               asp-action="Kanban">
+                Kanban
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               href="/swagger">
+                API Docs
+            </a>
+        </li>
+
+    </ul>
+
+    <!-- RIGHT MENU -->
+    <ul class="navbar-nav ms-auto">
+
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <li class="nav-item dropdown">
+
+                <a class="nav-link dropdown-toggle"
+                   href="#"
+                   role="button"
+                   data-bs-toggle="dropdown">
+
+                    <span class="me-2">
+                        @User.Identity.Name
+                    </span>
+
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            Profile
+                        </a>
+                    </li>
+
+                    <li>
+                        <form asp-area="Identity"
+                              asp-page="/Account/Logout"
+                              method="post">
+
+                            <button type="submit"
+                                    class="dropdown-item">
+                                Logout
+                            </button>
+
+                        </form>
+                    </li>
+
+                </ul>
+
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link"
+                   href="/Identity/Account/Login">
+                    Login
+                </a>
+            </li>
+        }
+
+    </ul>
+
+</div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - ClientProjectTracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

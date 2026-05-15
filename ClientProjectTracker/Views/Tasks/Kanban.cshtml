@@ -1,0 +1,113 @@
+@model List<ClientProjectTracker.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Kanban Board";
+}
+
+<h2 class="mb-4">Task Kanban Board</h2>
+
+<div class="row">
+
+    <!-- Pending -->
+    <div class="col-md-4">
+
+        <div class="card bg-light shadow-sm">
+
+            <div class="card-header">
+                <h5>Pending</h5>
+            </div>
+
+            <div class="card-body">
+
+                @foreach (var task in Model.Where(t => t.Status == "Pending"))
+                {
+                    <div class="card mb-3 shadow-sm">
+
+                        <div class="card-body">
+
+                            <h6>@task.Title</h6>
+
+                            <small class="text-muted">
+                                @task.Project?.Name
+                            </small>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- In Progress -->
+    <div class="col-md-4">
+
+        <div class="card bg-light shadow-sm">
+
+            <div class="card-header">
+                <h5>In Progress</h5>
+            </div>
+
+            <div class="card-body">
+
+                @foreach (var task in Model.Where(t => t.Status == "In Progress"))
+                {
+                    <div class="card mb-3 shadow-sm">
+
+                        <div class="card-body">
+
+                            <h6>@task.Title</h6>
+
+                            <small class="text-muted">
+                                @task.Project?.Name
+                            </small>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Completed -->
+    <div class="col-md-4">
+
+        <div class="card bg-light shadow-sm">
+
+            <div class="card-header">
+                <h5>Completed</h5>
+            </div>
+
+            <div class="card-body">
+
+                @foreach (var task in Model.Where(t => t.Status == "Completed"))
+                {
+                    <div class="card mb-3 shadow-sm border-success">
+
+                        <div class="card-body">
+
+                            <h6>@task.Title</h6>
+
+                            <small class="text-muted">
+                                @task.Project?.Name
+                            </small>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,15 @@
+<form asp-action="Create">
+    <input type="hidden" name="ClientId" value="@ViewBag.ClientId" />
+
+    <div>
+        <label>Name</label>
+        <input name="Name" class="form-control" />
+    </div>
+
+    <div>
+        <label>Description</label>
+        <input name="Description" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success mt-2">Save</button>
+</form>
