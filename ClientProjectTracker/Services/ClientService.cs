@@ -89,5 +89,8 @@ namespace ClientProjectTracker.Services
                 .OrderByDescending(c => c.CreatedAt)
                 .Take(count)
                 .ToListAsync();
+
+        public async Task<List<Client>> GetAllAsync()
+            => await _context.Clients.ToListAsync();    
     }
 }

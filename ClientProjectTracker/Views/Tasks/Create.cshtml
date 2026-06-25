@@ -1,4 +1,20 @@
+@model TaskItem
+
 <form asp-action="Create">
+    <select asp-for="ProjectId"
+
+            class="form-select"
+
+            asp-items="ViewBag.Projects">
+
+        <option value="">
+
+            -- Select Project --
+
+        </option>
+
+    </select>
+
     <input type="hidden" name="ProjectId" value="@ViewBag.ProjectId" />
 
     <div>

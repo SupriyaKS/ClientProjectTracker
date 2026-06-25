@@ -67,5 +67,6 @@ namespace ClientProjectTracker.Controllers.Api
             await _clientService.DeleteAsync(id);
             return Ok();
         }
+        
     }
 }

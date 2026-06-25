@@ -28,4 +28,11 @@ public class ProjectService : IProjectService
     {
         return await _context.Projects.CountAsync();
     }
+
+    public async Task<List<Project>> GetAllAsync()
+    {
+        return await _context.Projects
+            .OrderBy(p => p.Name)
+            .ToListAsync();
+    }
 }

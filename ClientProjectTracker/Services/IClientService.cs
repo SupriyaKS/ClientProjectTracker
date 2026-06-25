@@ -18,5 +18,7 @@ namespace ClientProjectTracker.Services
 
         Task<int> GetTotalCountAsync();
         Task<List<Client>> GetRecentAsync(int count);
+
+        Task<List<Client>> GetAllAsync();
     }
 }

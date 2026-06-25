@@ -1,6 +1,25 @@
-<form asp-action="Create">
-    <input type="hidden" name="ClientId" value="@ViewBag.ClientId" />
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model ClientProjectTracker.Models.Project
 
+@{
+
+    SelectList clients = (SelectList)ViewBag.Clients;
+
+}
+<form asp-action="Create">
+    <div class="mb-3">
+        <label asp-for="ClientId"
+            class="form-label"></label>
+
+        <select asp-for="ClientId"
+                class="form-select"
+                asp-items="clients">
+
+            <option value="">-- Select Client --</option>
+
+        </select>
+
+    </div>
     <div>
         <label>Name</label>
         <input name="Name" class="form-control" />
