@@ -23,7 +23,7 @@
                 {
                     <div class="card mb-3 shadow-sm task-card" data-id="@task.Id">
 
-                        <div class="card-body" id="Pending">
+                        <div class="card-body">
 
                             <h6>@task.Title</h6>
 
@@ -57,7 +57,7 @@
                 {
                     <div class="card mb-3 shadow-sm task-card" data-id="@task.Id">
 
-                        <div class="card-body" id="In Progress">
+                        <div class="card-body">
 
                             <h6>@task.Title</h6>
 
@@ -91,7 +91,7 @@
                 {
                     <div class="card mb-3 shadow-sm border-success task-card" data-id="@task.Id">
 
-                        <div class="card-body" id="Completed">
+                        <div class="card-body">
 
                             <h6>@task.Title</h6>
 
@@ -115,45 +115,75 @@
 
 <script>
 
+    document.addEventListener("DOMContentLoaded", function () {
+
     const columns = [
+
         "Pending",
-        "In Progress",
+
+        "InProgress",
+
         "Completed"
+
     ];
 
-    columns.forEach(status => {
+    columns.forEach(column => {
 
-        new Sortable(document.getElementById(status), {
+        const element = document.getElementById(column);
 
-            group: 'tasks',
+        if (!element)
+
+            return;
+
+        new Sortable(element, {
+
+            group: "tasks",
+
             animation: 150,
 
             onEnd: async function (evt) {
 
-                const taskId =
-                    evt.item.dataset.id;
+                const taskId = evt.item.dataset.id;
 
-                const newStatus =
-                    evt.to.id;
+                let newStatus = evt.to.id;
 
-                await fetch(`/api/tasks/${taskId}/status`, {
+                if (newStatus === "InProgress") {
 
-                    method: 'PUT',
+                    newStatus = "In Progress";
+
+                }
+
+                const response = await fetch(`/api/tasks/${taskId}/status`, {
+
+                    method: "PUT",
 
                     headers: {
-                        'Content-Type': 'application/json'
+
+                        "Content-Type": "application/json"
+
                     },
 
                     body: JSON.stringify({
+
                         status: newStatus
+
                     })
+
                 });
+
+                if (!response.ok) {
+
+                    alert("Failed to update task.");
+
+                }
 
             }
 
         });
 
     });
+
+});
 
 </script>
 
